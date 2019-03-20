@@ -5,15 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-
-using System.Windows.Data;
-using Newtonsoft.Json;
+using HtmlAgilityPack;
 
 namespace json1
 {
@@ -30,7 +29,7 @@ namespace json1
             string idpel = tbidpel.Text;
             string tgl = dtp.Value.Date.ToString("yyyy-MM-dd");
 
-            string tipe = tbtipe.Text;
+           
             string uri = @"http://localhost/rest/api/struq?idpel="+idpel+"&tgl_bayar="+tgl;
 
 
@@ -64,9 +63,16 @@ namespace json1
                 string rptag = (string)rss[0]["rp_tag"];
                 string adm = (string)rss[0]["admin_bank"];
                 string reff = (string)rss[0]["ref1"];
+                //nontag
+                string jenis = (string)rss[0]["jenis_trx"];
+                string noreg = (string)rss[0]["noreg"];
+                string tglreg = (string)rss[0]["tgl_reg"];
+                //token
+                string stoken = (string)rss[0]["lain2"];
+                //lain
+                string struklain = (string)rss[0]["struk"];
 
-
-                //sum code
+             /*   //sum code
                 //Convert to int
                 int x = Int32.Parse(rptag);
                 int xx = Int32.Parse(adm);
@@ -77,43 +83,165 @@ namespace json1
                 int sum2 = summ.Sum();
                 //convert to string
                 string total = sum2.ToString();
-                
-
+                //end sum
+*/
                 string ENT = Environment.NewLine;
-                string ID = "IDPEL      :   ";
-                string NM = "NAMA       :   ";
-                string TD = "TARIF/DAYA :   ";
+                
+                string ID = "IDPEL      :";
+                string NM = "NAMA       :";
+                string TD = "TARIF/DAYA :";
                 string SL = "/";
-                string BT = "BL/TH      :   ";
-                string TB = "TGL BAYAR  :   ";
-                string ST = "STAND METER:   ";
+                string BT = "BL/TH      :";
+                string TB = "TGL BAYAR  :";
+                string TB2 = "Tanggal Bayar ";
+                string ST = "STAND METER:";
                 string RP = "RP TAG PLN :RP.    ";
-                string AD = "ADMIN BANK :RP.      ";
+                string AD = "ADMIN BANK :RP.    ";
                 string TT = "TOTAL BAYAR:RP.    ";
-                string RF = "REFF       :   ";
+                string RF = "REFF       :";
                 string IF0 = "Informasi Hub Call Center 123 Atau PLN Terdekat";
+                string TQ = "TERIMAKASIH";
                 string SP = "STRUK PEMBAYARAN TAGIHAN LISTRIK";
+                string AG = "PLN menyatakan struk ini sebagai pembayaran yang sah";
+                //NONTAG
+                string NON = "STRUK PEMBAYARAN NON TAGIHAN LISTRIK";
+                string NR = "NO REG     :   ";
+                string TR = "TGL REG    :   ";
+                string JT = "TRANSAKSI  :   ";
 
-                List<String> list = new List<String>();
-                list.Add(SP);
-                list.Add(agen);
-                list.Add(string.Concat(tglbyr,ENT));
-                list.Add(string.Concat(ID, idp));
-                list.Add(string.Concat(NM, nama));
-                list.Add(string.Concat(TD, tarif, SL, daya));
-                list.Add(string.Concat(BT, bln));
-                list.Add(string.Concat(TB, tglbyr));
-                list.Add(string.Concat(ST,st0, SL, st1));
-                list.Add(string.Concat(RP, rptag));
-                list.Add(string.Concat(AD, adm));
-                list.Add(string.Concat(TT, total));
-                list.Add(string.Concat(RF, reff));
-                list.Add(string.Concat(IF0));
+                if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
+                {
 
-                richTextBox1.Lines = list.ToArray();
-              
+                    //sum code
+                    //Convert to int
+                    int x = Int32.Parse(rptag);
+                    int xx = Int32.Parse(adm);
+                    //sum
+                    List<int> summ = new List<int>();
+                    summ.Add(x);
+                    summ.Add(xx);
+                    int sum2 = summ.Sum();
+                    //convert to string
+                    string total = sum2.ToString();
+                    //end sum
+
+
+                    List<String> list = new List<String>();
+                    //list.Add(SP);
+                    //list.Add(string.Concat(string.Format("{0,85}", SP)));
+                    list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}",agen, agen,TB2,tglbyr)));
+                    list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}",tglbyr, SP)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t{4,5}{5,5}", ID, idp, ID, idp, BT, bln)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}{3,5}\t\t\t{4,1}{5,1}{6,1}{7,1}", NM, nama, NM, nama, ST, st0, SL, st1)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}{3,5}", TD, tarif, TD, tarif)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}{3,5}", BT, bln, RP, rptag)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TB, tglbyr, RF, reff)));
+                    //list.Add(string.Concat(string.Format("{0,5}{1,1}{2,1}{3,1}\t\t\t\t\t{4,5}", ST, st0, SL, st1, AG)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, AD, adm)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", AD, adm, TT, total)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t\t\t{2,5}", TT, total, TQ)));
+                    list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}", RF, reff, IF0)));
+                     /*   list.Add(string.Concat(agen));
+                        list.Add(string.Concat(tglbyr,ENT));
+                        list.Add(string.Concat(ID, idp));
+                        list.Add(string.Concat(NM, nama));
+                        list.Add(string.Concat(TD, tarif));
+                        list.Add(string.Concat(BT, bln));
+                        list.Add(string.Concat(TB, tglbyr));
+                        list.Add(string.Concat(ST, st0, SL, st1));
+                        list.Add(string.Concat(RP, rptag));
+                        list.Add(string.Concat(AD, adm));
+                        list.Add(string.Concat(TT, total));
+                        list.Add(string.Concat(RF, reff));
+                        list.Add(string.Concat(IF0));  */
+
+                    //list.Add(string.Concat(agen, agen.PadLeft(51),TB2.PadLeft(26),tglbyr.PadLeft(5)));
+                    //list.Add(string.Concat(agen, string.Format(agen.PadRight(30)),string.Format(TB2.PadRight(10)),string.Format("{0,40}",tglbyr)));
+                    //list.Add(string.Concat(tglbyr,SP.PadLeft(86), ENT));
+                    //list.Add(string.Concat(ID, idp,ID.PadLeft(39),idp,BT.PadLeft(35),bln));
+                    //list.Add(string.Concat(NM, nama,NM.PadLeft(44),nama,ST.PadLeft(40),st0,SL,st1));
+                    //list.Add(string.Concat(TD, tarif,TD.PadLeft(49),tarif));
+                    //list.Add(string.Concat(BT, bln,RP.PadLeft(51),rptag));
+                    //list.Add(string.Concat(TB, tglbyr,RF.PadLeft(32),reff));
+                    //list.Add(string.Concat(ST, st0, SL, st1));
+                    //list.Add(string.Concat(RP, rptag));
+                    //list.Add(string.Concat(AD, adm));
+                    //list.Add(string.Concat(TT, total));
+                    //list.Add(string.Concat(RF, reff));
+
+
+                    richTextBox1.Lines = list.ToArray();
+
+                } else if (comboBox1.Text == "PLN NON TAGIHAN")
+                {
+                    
+
+                    //sum code
+                    //Convert to int
+                    int x = Int32.Parse(rptag);
+                    int xx = Int32.Parse(adm);
+                    //sum
+                    List<int> summ = new List<int>();
+                    summ.Add(x);
+                    summ.Add(xx);
+                    int sum2 = summ.Sum();
+                    //convert to string
+                    string total = sum2.ToString();
+                    //end sum
+
+
+                    List<String> list = new List<String>();
+                    list.Add(NON);
+                    list.Add(agen);
+                    list.Add(string.Concat(tglbyr, ENT));
+                    list.Add(string.Concat(NR, noreg));
+                    list.Add(string.Concat(TR, tglreg));
+                    list.Add(string.Concat(ID, idp));
+                    list.Add(string.Concat(NM, nama));
+                    list.Add(string.Concat(JT, jenis));
+                    list.Add(string.Concat(RP, rptag));
+                    list.Add(string.Concat(AD, adm));
+                    list.Add(string.Concat(TT, total));
+                    list.Add(string.Concat(RF, reff));
+                    list.Add(string.Concat(IF0));
+
+                    richTextBox1.Lines = list.ToArray();
+
+                } else if (comboBox1.Text == "PLN TOKEN - PREPAID")
+                {
+                    //richTextBox1.Visible = false;
+                    //parsing html
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                    doc.LoadHtml(stoken);
+                    foreach (HtmlTextNode node in doc.DocumentNode.SelectNodes("//text()"))
+                    {
+
+                        richTextBox1.AppendText(node.InnerText.Trim());
+                        
+
+
+                    }
+                    
+                    
+
+                    //webBrowser1.DocumentText = stoken;
+
+
+
+                } else if(comboBox1.Text == "BPJS KESEHATAN")
+                {
+                    richTextBox1.Visible = false;
+
+                    webBrowser1.DocumentText = struklain;
+
+
+                }
              
-             
+
+
+
+
+
 
              /*  webBrowser1.Navigate("about:blank");
                 while (webBrowser1.Document == null || webBrowser1.Document.Body == null)

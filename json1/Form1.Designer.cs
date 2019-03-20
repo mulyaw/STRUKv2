@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.tbidpel = new System.Windows.Forms.TextBox();
-            this.tbtipe = new System.Windows.Forms.TextBox();
             this.dtp = new System.Windows.Forms.DateTimePicker();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.button1 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // tbidpel
@@ -42,13 +42,6 @@
             this.tbidpel.Name = "tbidpel";
             this.tbidpel.Size = new System.Drawing.Size(140, 20);
             this.tbidpel.TabIndex = 0;
-            // 
-            // tbtipe
-            // 
-            this.tbtipe.Location = new System.Drawing.Point(395, 12);
-            this.tbtipe.Name = "tbtipe";
-            this.tbtipe.Size = new System.Drawing.Size(167, 20);
-            this.tbtipe.TabIndex = 1;
             // 
             // dtp
             // 
@@ -62,7 +55,7 @@
             this.webBrowser1.Location = new System.Drawing.Point(12, 50);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(713, 250);
+            this.webBrowser1.Size = new System.Drawing.Size(840, 250);
             this.webBrowser1.TabIndex = 3;
             // 
             // button1
@@ -77,23 +70,36 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richTextBox1.Location = new System.Drawing.Point(256, 50);
+            this.richTextBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.richTextBox1.Location = new System.Drawing.Point(12, 50);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(469, 250);
+            this.richTextBox1.Size = new System.Drawing.Size(840, 250);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "PLN TAGIHAN - POSTPAID",
+            "PLN TOKEN - PREPAID",
+            "PLN NON TAGIHAN",
+            "BPJS KESEHATAN"});
+            this.comboBox1.Location = new System.Drawing.Point(410, 11);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(164, 21);
+            this.comboBox1.TabIndex = 6;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 315);
+            this.ClientSize = new System.Drawing.Size(864, 315);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.dtp);
-            this.Controls.Add(this.tbtipe);
             this.Controls.Add(this.tbidpel);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -105,11 +111,11 @@
         #endregion
 
         private System.Windows.Forms.TextBox tbidpel;
-        private System.Windows.Forms.TextBox tbtipe;
         private System.Windows.Forms.DateTimePicker dtp;
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
