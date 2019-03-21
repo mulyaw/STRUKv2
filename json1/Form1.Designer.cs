@@ -39,6 +39,7 @@
             // tbidpel
             // 
             this.tbidpel.Location = new System.Drawing.Point(12, 12);
+            this.tbidpel.Multiline = true;
             this.tbidpel.Name = "tbidpel";
             this.tbidpel.Size = new System.Drawing.Size(140, 20);
             this.tbidpel.TabIndex = 0;
@@ -73,6 +74,7 @@
             this.richTextBox1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.richTextBox1.Location = new System.Drawing.Point(12, 50);
             this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.richTextBox1.Size = new System.Drawing.Size(840, 250);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
