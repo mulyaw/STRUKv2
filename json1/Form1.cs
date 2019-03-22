@@ -67,16 +67,20 @@ namespace json1
                     string rptag = (string)rss[0]["rp_tag"];
                     string adm = (string)rss[0]["admin_bank"];
                     string reff = (string)rss[0]["ref1"];
+                    string kodetrx = (string)rss[0]["kode_trx"];
                     //nontag
                     string jenis = (string)rss[0]["jenis_trx"];
                     string noreg = (string)rss[0]["noreg"];
                     string tglreg = (string)rss[0]["tgl_reg"];
+                    string info1 = (string)rss[0]["infopln1"];
+                    string lain1 = (string)rss[0]["lain1"];
+                    string ref2 = (string)rss[0]["ref2"];
                     //token
                     string stoken = (string)rss[0]["lain2"];
                     //lain
                     string struklain = (string)rss[0]["struk"];
 
-                    /*   //sum code
+                    /* //sum code
                        //Convert to int
                        int x = Int32.Parse(rptag);
                        int xx = Int32.Parse(adm);
@@ -88,7 +92,7 @@ namespace json1
                        //convert to string
                        string total = sum2.ToString();
                        //end sum
-       */
+                    */
                     string ENT = Environment.NewLine;
 
                     string ID = "IDPEL      :";
@@ -106,12 +110,14 @@ namespace json1
                     string IF0 = "Informasi Hub Call Center 123 Atau PLN Terdekat";
                     string TQ = "TERIMAKASIH";
                     string SP = "STRUK PEMBAYARAN TAGIHAN LISTRIK";
-                    string AG = "PLN menyatakan struk ini sebagai pembayaran yang sah";
+                    string AG = "PLN menyatakan struk ini sebagai bukti pembayaran yang sah";
                     //NONTAG
                     string NON = "STRUK PEMBAYARAN NON TAGIHAN LISTRIK";
-                    string NR = "NO REG     :   ";
-                    string TR = "TGL REG    :   ";
-                    string JT = "TRANSAKSI  :   ";
+                    string NR = "NO REG     :";
+                    string TR = "TGL REG    :";
+                    string JT = "TRANSAKSI  :";
+                    string BP = "BIAYA PLN  :";
+                    string AD2 = "ADMIN BANK :       ";
 
                     if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
                     {
@@ -130,11 +136,11 @@ namespace json1
                         //end sum
 
 
-                        List<String> list = new List<String>();
-                        //list.Add(SP);
-                        //list.Add(string.Concat(string.Format("{0,85}", SP)));
+                        List<String> list = new List<String>();                        
+                        
                         list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}", agen, agen, TB2, tglbyr)));
-                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}", tglbyr, SP)));
+                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP,ENT)));
+                        
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t{4,5}{5,1}", ID, idp, ID, idp, BT, bln)));
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t{2,5}{3,1}\t\t\t{4,1}{5,1}{6,1}{7,1}", NM, nama, NM, nama, ST, st0, SL, st1)));
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,1}", TD, tarif, TD, tarif)));
@@ -146,7 +152,8 @@ namespace json1
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t\t\t{2,5}", TT, total, TQ)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}", RF, reff, IF0)));
                         list.Add(ENT);
-                        /*   list.Add(string.Concat(agen));
+
+                        /* list.Add(string.Concat(agen));
                            list.Add(string.Concat(tglbyr,ENT));
                            list.Add(string.Concat(ID, idp));
                            list.Add(string.Concat(NM, nama));
@@ -160,8 +167,7 @@ namespace json1
                            list.Add(string.Concat(RF, reff));
                            list.Add(string.Concat(IF0));  */
 
-                        //richTextBox1.Lines = list.ToArray();
-                        
+                        //richTextBox1.Lines = list.ToArray();                        
                         richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
 
 
@@ -185,21 +191,43 @@ namespace json1
 
 
                         List<String> list = new List<String>();
-                        list.Add(NON);
-                        list.Add(agen);
-                        list.Add(string.Concat(tglbyr, ENT));
-                        list.Add(string.Concat(NR, noreg));
-                        list.Add(string.Concat(TR, tglreg));
-                        list.Add(string.Concat(ID, idp));
-                        list.Add(string.Concat(NM, nama));
-                        list.Add(string.Concat(JT, jenis));
-                        list.Add(string.Concat(RP, rptag));
-                        list.Add(string.Concat(AD, adm));
-                        list.Add(string.Concat(TT, total));
-                        list.Add(string.Concat(RF, reff));
-                        list.Add(string.Concat(IF0));
 
-                        richTextBox1.Lines = list.ToArray();
+                        list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,15}\t{3,10}", agen, agen, TB2, tglbyr)));
+                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}", tglbyr, NON)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,10}{1,1}", JT, jenis)));
+
+
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", NR, noreg, NR, noreg)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}{3,5}", TR, tglreg, TR, tglreg)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", ID, idp, NM, nama)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", NM, nama.PadRight(15), ID, idp)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", JT, jenis, RP,rptag)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, RF, reff)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}", AD2, adm, AG)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TT, total, AD2,adm)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t{2,5}{3,5}", RF, reff, TT, total)));
+                        //list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}{1,5}", TT, total)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,5}", info1)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}|{1,5}|{2,5}", lain1,ref2,kodetrx)));
+                        list.Add(ENT);
+
+
+                        richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
+
+                        /* list.Add(NON);
+                           list.Add(agen);
+                           list.Add(string.Concat(tglbyr, ENT));
+                           list.Add(string.Concat(NR, noreg));
+                           list.Add(string.Concat(TR, tglreg));
+                           list.Add(string.Concat(ID, idp));
+                           list.Add(string.Concat(NM, nama));
+                           list.Add(string.Concat(JT, jenis));
+                           list.Add(string.Concat(RP, rptag));
+                           list.Add(string.Concat(AD, adm));
+                           list.Add(string.Concat(TT, total));
+                           list.Add(string.Concat(RF, reff));
+                           list.Add(string.Concat(IF0));
+                         */
 
                     }
                     else if (comboBox1.Text == "PLN TOKEN - PREPAID")

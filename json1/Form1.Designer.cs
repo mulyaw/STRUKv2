@@ -78,6 +78,7 @@
             this.richTextBox1.Size = new System.Drawing.Size(840, 250);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // comboBox1
             // 
