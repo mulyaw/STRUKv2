@@ -111,13 +111,14 @@ namespace json1
                     string TQ = "TERIMAKASIH";
                     string SP = "STRUK PEMBAYARAN TAGIHAN LISTRIK";
                     string AG = "PLN menyatakan struk ini sebagai bukti pembayaran yang sah";
+                    string TL = "TAGIHAN LISTRIK";
                     //NONTAG
                     string NON = "STRUK PEMBAYARAN NON TAGIHAN LISTRIK";
                     string NR = "NO REG     :";
                     string TR = "TGL REG    :";
                     string JT = "TRANSAKSI  :";
                     string BP = "BIAYA PLN  :";
-                    string AD2 = "ADMIN BANK :       ";
+                    string AD2 = "ADMIN BANK :RP.     ";
 
                     if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
                     {
@@ -136,21 +137,28 @@ namespace json1
                         //end sum
 
 
-                        List<String> list = new List<String>();                        
-                        
-                        list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}", agen, agen, TB2, tglbyr)));
+                        List<String> list = new List<String>();
+
+                        list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}", agen.PadRight(35), agen, TB2, tglbyr)));
+
                         list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP,ENT)));
                         
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t{4,5}{5,1}", ID, idp, ID, idp, BT, bln)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t{2,5}{3,1}\t\t\t{4,1}{5,1}{6,1}{7,1}", NM, nama, NM, nama, ST, st0, SL, st1)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t\t{4,5}{5,1}", ID, idp, ID, idp, BT, bln)));
+
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t{4,5}{5,1}-{6,1}", NM, nama.PadRight(15), NM, nama.PadRight(20), ST, st0, st1)));
+
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,1}", TD, tarif, TD, tarif)));
+
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,5}", BT, bln, RP, rptag)));
+
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TB, tglbyr, RF, reff)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,1}{2,1}{3,1}\t\t\t\t\t{4,5}", ST, st0, SL, st1, AG)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, AD, adm)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", AD, adm, TT, total)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t\t\t{2,5}", TT, total, TQ)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}", RF, reff, IF0)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,1}-{2,1}", ST, st0, st1)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t{0,5}", AG)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", JT, TL, AD, adm)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, TT, total)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t\t\t\t{2,5}", AD, adm, TQ)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}", TT, total, info1)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}|{3,5}|{4,5}",RF,reff, lain1, ref2, kodetrx)));
                         list.Add(ENT);
 
                         /* list.Add(string.Concat(agen));
