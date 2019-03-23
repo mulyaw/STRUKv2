@@ -13,6 +13,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using HtmlAgilityPack;
+using System.Drawing.Printing;
 
 namespace json1
 {
@@ -122,6 +123,8 @@ namespace json1
 
                     if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
                     {
+                        webBrowser1.Hide();
+                        richTextBox1.Show();
 
                         //sum code
                         //Convert to int
@@ -140,17 +143,11 @@ namespace json1
                         List<String> list = new List<String>();
 
                         list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}", agen.PadRight(35), agen, TB2, tglbyr)));
-
-                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP,ENT)));
-                        
+                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP,ENT)));                        
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t\t{4,5}{5,1}", ID, idp, ID, idp, BT, bln)));
-
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t{4,5}{5,1}-{6,1}", NM, nama.PadRight(15), NM, nama.PadRight(20), ST, st0, st1)));
-
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,1}", TD, tarif, TD, tarif)));
-
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,5}", BT, bln, RP, rptag)));
-
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TB, tglbyr, RF, reff)));
                         list.Add(string.Concat(string.Format("{0,5}{1,1}-{2,1}", ST, st0, st1)));
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t{0,5}", AG)));
@@ -182,6 +179,8 @@ namespace json1
     }
                     else if (comboBox1.Text == "PLN NON TAGIHAN")
                     {
+                        webBrowser1.Hide();
+                        richTextBox1.Show();
 
 
                         //sum code
@@ -203,8 +202,6 @@ namespace json1
                         list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,15}\t{3,10}", agen, agen, TB2, tglbyr)));
                         list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}", tglbyr, NON)));
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,10}{1,1}", JT, jenis)));
-
-
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", NR, noreg, NR, noreg)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}{3,5}", TR, tglreg, TR, tglreg)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", ID, idp, NM, nama)));
@@ -213,12 +210,10 @@ namespace json1
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, RF, reff)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}", AD2, adm, AG)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TT, total, AD2,adm)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t{2,5}{3,5}", RF, reff, TT, total)));
-                        //list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}{1,5}", TT, total)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t{2,5}{3,5}", RF, reff, TT, total)));                      
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,5}", info1)));
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}|{1,5}|{2,5}", lain1,ref2,kodetrx)));
                         list.Add(ENT);
-
 
                         richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
 
@@ -240,39 +235,65 @@ namespace json1
                     }
                     else if (comboBox1.Text == "PLN TOKEN - PREPAID")
                     {
-                        //richTextBox1.Visible = false;
+                        webBrowser1.Hide();
+                        richTextBox1.Show();
                         //parsing html
                         HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                         doc.LoadHtml(stoken);
                         foreach (HtmlTextNode node in doc.DocumentNode.SelectNodes("//text()"))
                         {
-
                             richTextBox1.AppendText(Environment.NewLine + node.InnerText.Trim());                           
-
                         }
                  
 
                     }
+                    else if (comboBox1.Text == "TELKOM GROUP")
+                    {
+                        richTextBox1.Hide();
+                        webBrowser1.Show();
+                        
+                        webBrowser1.DocumentText = Environment.NewLine + struklain;                                            
+                    }
+                    else if (comboBox1.Text == "MULTIFINANCE")
+                    {
+                        richTextBox1.Hide();
+                        webBrowser1.Show();
+
+                        webBrowser1.Visible = true;
+                        webBrowser1.DocumentText = Environment.NewLine + struklain;
+                    }
+                    else if (comboBox1.Text == "PDAM")
+                    {
+                        richTextBox1.Hide();
+                        webBrowser1.Show();
+
+                        webBrowser1.Visible = true;
+                        webBrowser1.DocumentText = Environment.NewLine + struklain;
+                    }
+                    else if (comboBox1.Text == "TV TAGIHAN")
+                    {
+                        richTextBox1.Hide();
+                        webBrowser1.Show();
+
+                        webBrowser1.Visible = true;
+                        webBrowser1.DocumentText = Environment.NewLine + struklain;
+                    }
+                    else if (comboBox1.Text == "TAGIHAN SELULER")
+                    {
+                        richTextBox1.Hide();
+                        webBrowser1.Show();
+
+                        webBrowser1.Visible = true;
+                        webBrowser1.DocumentText = Environment.NewLine + struklain;
+                    }
                     else if (comboBox1.Text == "BPJS KESEHATAN")
                     {
-                        richTextBox1.Visible = false;
-                        //webBrowser1.DocumentText = Environment.NewLine + struklain;
+                        richTextBox1.Hide();
+                        webBrowser1.Show();
 
-                        
-                            webBrowser1.ScriptErrorsSuppressed = true;
-                            webBrowser1.Navigate("about:blank");
-                            while (webBrowser1.Document == null || webBrowser1.Document.Body == null)
-                                Application.DoEvents();
-                            webBrowser1.Document.OpenNew(true).Write(Environment.NewLine +struklain);                        
-
+                        webBrowser1.Visible = true;
+                        webBrowser1.DocumentText = Environment.NewLine + struklain;
                     }
-
-
-
-
-
-
-
                     /*  webBrowser1.Navigate("about:blank");
                        while (webBrowser1.Document == null || webBrowser1.Document.Body == null)
                            Application.DoEvents();
@@ -284,6 +305,21 @@ namespace json1
 
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            PrintDialog printDialog = new PrintDialog();
+            PrintDocument documentToPrint = new PrintDocument();
+            //printDialog.Document = documentToPrint;
+            if (printDialog.ShowDialog() == DialogResult.OK)
+            {
+                
+                StringReader reader = new StringReader(richTextBox1.Text);
+                //documentToPrint.PrintPage += new PrintPageEventHandler(DocumentToPrint_PrintPage);
+                documentToPrint.Print();
+            }
+        }
     }
-}
+    }
+
 

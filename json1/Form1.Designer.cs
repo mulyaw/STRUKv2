@@ -34,6 +34,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.printDocument1 = new System.Drawing.Printing.PrintDocument();
+            this.printDialog1 = new System.Windows.Forms.PrintDialog();
             this.SuspendLayout();
             // 
             // tbidpel
@@ -56,7 +59,7 @@
             this.webBrowser1.Location = new System.Drawing.Point(12, 50);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(840, 250);
+            this.webBrowser1.Size = new System.Drawing.Size(851, 250);
             this.webBrowser1.TabIndex = 3;
             // 
             // button1
@@ -75,7 +78,7 @@
             this.richTextBox1.Location = new System.Drawing.Point(12, 50);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox1.Size = new System.Drawing.Size(840, 250);
+            this.richTextBox1.Size = new System.Drawing.Size(851, 250);
             this.richTextBox1.TabIndex = 5;
             this.richTextBox1.Text = "";
             this.richTextBox1.WordWrap = false;
@@ -87,17 +90,37 @@
             "PLN TAGIHAN - POSTPAID",
             "PLN TOKEN - PREPAID",
             "PLN NON TAGIHAN",
+            "TELKOM GROUP",
+            "MULTIFINANCE",
+            "PDAM",
+            "TV TAGIHAN",
+            "TAGIHAN SELULER",
             "BPJS KESEHATAN"});
             this.comboBox1.Location = new System.Drawing.Point(410, 11);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(164, 21);
             this.comboBox1.TabIndex = 6;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(674, 317);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // printDialog1
+            // 
+            this.printDialog1.UseEXDialog = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(864, 315);
+            this.ClientSize = new System.Drawing.Size(875, 352);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.button1);
@@ -119,6 +142,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button button2;
+        private System.Drawing.Printing.PrintDocument printDocument1;
+        private System.Windows.Forms.PrintDialog printDialog1;
     }
 }
 
