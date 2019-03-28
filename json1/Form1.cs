@@ -14,16 +14,37 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using HtmlAgilityPack;
 using System.Drawing.Printing;
+using System.Net.NetworkInformation;
+using mshtml;
+
 
 namespace json1
 {
     public partial class Form1 : Form
     {
+       
         public Form1()
         {
+            
             InitializeComponent();
+            //this.Text = "This Is My Title";
+         /*   bool status = NetworkInterface.GetIsNetworkAvailable();
+            if (status == true)            
+                 Text = ("Cetak Struk - Connected -");            
+            else Text = ("Internet connections are not available");
+         */  
+            WebRequest request = WebRequest.Create("http://192.168.15.59/rest");
+            try
+            {
+                request.GetResponse();             
+                Text = ("Cetak Struk -- Connected --                                   "+DateTime.Now.ToString("                             dddd, d - MMMM - yyyy"));                
+            }
+            catch //If exception thrown then couldn't get response from address
+            {               
+                Text = ("Cetak Struk -- Disconnected --");                              
+            }
         }
-
+           
         private void button1_Click(object sender, EventArgs e)
         {
             string result = string.Empty;
@@ -33,11 +54,8 @@ namespace json1
             //int count = 0; //hitung jumlah data
             foreach (string idpel in allLines)
             {
-
-
-                string uri = @"http://localhost/rest/api/struq?idpel=" + idpel + "&tgl_bayar=" + tgl;
-
-
+                //string uri = @"http://localhost/rest/api/struq?idpel=" + idpel + "&tgl_bayar=" + tgl;
+                string uri = @"http://192.168.15.59/rest/api/struq?idpel=" + idpel + "&tgl_bayar=" + tgl;
                 HttpWebRequest req = (HttpWebRequest)WebRequest.Create(uri);
                 req.AutomaticDecompression = DecompressionMethods.GZip;
 
@@ -46,10 +64,6 @@ namespace json1
 
                 using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
                 using (Stream stream = resp.GetResponseStream())
-
-
-
-
                 using (StreamReader read = new StreamReader(stream, Encoding.UTF8))
                 {
                     result = read.ReadToEnd();
@@ -96,8 +110,8 @@ namespace json1
                     */
                     string ENT = Environment.NewLine;
 
-                    string ID = "IDPEL      :";
-                    string NM = "NAMA       :";
+                    string ID = "IDPEL";
+                    string NM = "NAMA";
                     string TD = "TARIF/DAYA :";
                     string SL = "/";
                     string BT = "BL/TH      :";
@@ -116,10 +130,13 @@ namespace json1
                     //NONTAG
                     string NON = "STRUK PEMBAYARAN NON TAGIHAN LISTRIK";
                     string NR = "NO REG     :";
+                    string NR2 = "NO REGISTRASI";
                     string TR = "TGL REG    :";
-                    string JT = "TRANSAKSI  :";
-                    string BP = "BIAYA PLN  :";
-                    string AD2 = "ADMIN BANK :RP.     ";
+                    string TR2 = "TGL REGISTRASI";
+                    string JT = "TRANSAKSI";
+                    string BP = "BIAYA PLN";
+                    string AD2 = "ADMIN BANK :RP.    ";
+
 
                     if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
                     {
@@ -143,19 +160,19 @@ namespace json1
                         List<String> list = new List<String>();
 
                         list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}", agen.PadRight(35), agen, TB2, tglbyr)));
-                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP,ENT)));                        
+                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP, ENT)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t\t{4,5}{5,1}", ID, idp, ID, idp, BT, bln)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t{4,5}{5,1}-{6,1}", NM, nama.PadRight(15), NM, nama.PadRight(20), ST, st0, st1)));
                         list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,1}", TD, tarif, TD, tarif)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,5}", BT, bln, RP, rptag)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TB, tglbyr, RF, reff)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t{2,5}{3,5}", BT, bln, RP, rptag)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t{2,5}{3,5}", TB, tglbyr, RF, reff)));
                         list.Add(string.Concat(string.Format("{0,5}{1,1}-{2,1}", ST, st0, st1)));
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t{0,5}", AG)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", JT, TL, AD, adm)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, TT, total)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t\t\t\t{2,5}", AD, adm, TQ)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}", TT, total, info1)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}|{3,5}|{4,5}",RF,reff, lain1, ref2, kodetrx)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}|{3,5}|{4,5}", RF, reff, lain1, ref2, kodetrx)));
                         list.Add(ENT);
 
                         /* list.Add(string.Concat(agen));
@@ -176,7 +193,7 @@ namespace json1
                         richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
 
 
-    }
+                    }
                     else if (comboBox1.Text == "PLN NON TAGIHAN")
                     {
                         webBrowser1.Hide();
@@ -196,9 +213,24 @@ namespace json1
                         string total = sum2.ToString();
                         //end sum
 
-
+                        
                         List<String> list = new List<String>();
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t\t\t\t{0,1}{1,1}", TB2, tglbyr)));
+                        list.Add(string.Concat(string.Format("{0,1}\t{1,1}", agen.PadRight(35), agen)));
+                        list.Add(string.Concat(string.Format("{0,1}\t\t\t\t\t\t\t{1,1}{2,1}", tglbyr, NON,ENT)));
+                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t\t{2,1}:{3,1}", NR, noreg, JT.PadRight(15), jenis)));
+                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t\t\t{2,1}:{3,1}", TR, tglreg, NR2.PadRight(15), noreg)));
+                        list.Add(string.Concat(string.Format("{0,1}:{1,1}\t\t\t{2,1}:{3,1}", ID.PadRight(11), idp.PadRight(15), TR2.PadRight(15), tglreg)));
+                        list.Add(string.Concat(string.Format("{0,1}:{1,1}\t{2,1}:{3,1}", NM.PadRight(11), nama.PadRight(25), NM.PadRight(15), nama)));
+                        list.Add(string.Concat(string.Format("{0,1}:\t\t\t\t\t{1,1}:{2,1}", JT.PadRight(11), ID.PadRight(15),idp)));
+                        list.Add(string.Concat(string.Format("{0,5}\t\t\t\t{1,1}:{2,1}", jenis, BP.PadRight(15), rptag)));
+                        list.Add(ENT);
 
+                       
+                       
+
+                        richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
+                        /*
                         list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,15}\t{3,10}", agen, agen, TB2, tglbyr)));
                         list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}", tglbyr, NON)));
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,10}{1,1}", JT, jenis)));
@@ -206,16 +238,18 @@ namespace json1
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}{3,5}", TR, tglreg, TR, tglreg)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", ID, idp, NM, nama)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", NM, nama.PadRight(15), ID, idp)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", JT, jenis, RP,rptag)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", JT, jenis, RP, rptag)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, RF, reff)));
                         list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t{2,5}", AD2, adm, AG)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TT, total, AD2,adm)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t{2,5}{3,5}", RF, reff, TT, total)));                      
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", TT, total, AD2, adm)));
+                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t{2,5}{3,5}", RF, reff, TT, total)));
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,5}", info1)));
-                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}|{1,5}|{2,5}", lain1,ref2,kodetrx)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}|{1,5}|{2,5}",lain1, ref2, kodetrx)));                        
                         list.Add(ENT);
+                        */
 
-                        richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
+
+                        //richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
 
                         /* list.Add(NON);
                            list.Add(agen);
@@ -242,25 +276,113 @@ namespace json1
                         doc.LoadHtml(stoken);
                         foreach (HtmlTextNode node in doc.DocumentNode.SelectNodes("//text()"))
                         {
-                            richTextBox1.AppendText(Environment.NewLine + node.InnerText.Trim());                           
+                            richTextBox1.AppendText(Environment.NewLine + node.InnerText.Trim());
                         }
-                 
+
 
                     }
                     else if (comboBox1.Text == "TELKOM GROUP")
                     {
                         richTextBox1.Hide();
-                        webBrowser1.Show();
-                        
-                        webBrowser1.DocumentText = Environment.NewLine + struklain;                                            
+                        webBrowser1.Show();                      
+                        webBrowser1.DocumentText = struklain + "<br/>";
+
+                        /************Disable alert/print function()**********************
+                        HtmlElement head = webBrowser1.Document.GetElementsByTagName("head")[0];
+                        HtmlElement scriptEl = webBrowser1.Document.CreateElement("script");
+                        IHTMLScriptElement element = (IHTMLScriptElement)scriptEl.DomElement;
+                        string alertBlocker = @"window.alert = function () { }; 
+                        window.print=function () { };
+                        window.confirm=function () { };";
+                        element.text = alertBlocker;
+                        head.AppendChild(scriptEl);
+                        webBrowser1.ScriptErrorsSuppressed = true;
+                        /****************************************************************/
+
+                        /*
+                                                     HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                                                     doc.LoadHtml(struklain);
+
+                                                     var TempString = new StringBuilder();
+                                                     foreach (HtmlNode style in doc.DocumentNode.Descendants("style").ToArray())
+                                                     {
+                                                         style.Remove();
+                                                     }
+                                                     foreach (HtmlNode script in doc.DocumentNode.Descendants("script").ToArray())
+                                                     {
+                                                         script.Remove();
+                                                     }
+                                                     foreach (HtmlNode head in doc.DocumentNode.Descendants("head").ToArray())
+                                                     {
+                                                         head.Remove();
+                                                     }
+                                                     foreach (HtmlNode comment in doc.DocumentNode.Descendants("comment()").ToArray())
+                                                     {
+                                                         comment.Remove();
+                                                     }
+                                                     foreach (HtmlTextNode node in doc.DocumentNode.SelectNodes("//text()"))
+                                                     {
+                                                      richTextBox1.AppendText(Environment.NewLine+ node.InnerText);                            
+                                                     }
+                             */
+
+
+
                     }
                     else if (comboBox1.Text == "MULTIFINANCE")
                     {
-                        richTextBox1.Hide();
-                        webBrowser1.Show();
+                        /* richTextBox1.Hide();
+                           webBrowser1.Show();
+                           webBrowser1.Visible = true;
+                           webBrowser1.DocumentText = Environment.NewLine + struklain; */
+                        
+                        
+                        HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                        doc.LoadHtml(struklain);
 
-                        webBrowser1.Visible = true;
-                        webBrowser1.DocumentText = Environment.NewLine + struklain;
+                        var TempString = new StringBuilder();
+                        foreach (HtmlNode style in doc.DocumentNode.Descendants("style").ToArray())
+                        {
+                            style.Remove();
+                        }
+                        foreach (HtmlNode script in doc.DocumentNode.Descendants("script").ToArray())
+                        {
+                            script.Remove();
+                        }
+                        foreach (HtmlNode head in doc.DocumentNode.Descendants("head").ToArray())
+                        {
+                            head.Remove();
+                        }
+                        foreach (HtmlNode comment in doc.DocumentNode.Descendants("comment()").ToArray())
+                        {
+                            comment.Remove();
+                        }
+                        
+                        var paragraphs = doc.DocumentNode.Descendants("p").ToList();
+                        foreach (var item in paragraphs)
+                        {
+                            if (item.InnerHtml == "&nbsp;") item.Remove();
+                        }
+                        var followingText = doc.DocumentNode
+                            .SelectNodes(".//following-sibling::text()")
+                            .ToList();
+                        for (int i = 0; i < followingText.Count - 1; ++i)
+                        {
+                            followingText[i].Remove();
+                        }
+                        
+                        foreach (HtmlTextNode node in doc.DocumentNode.SelectNodes("//text()"))
+                        {
+                            /*string regex1 = Regex.Replace(node.InnerText.Trim(), @"\s", "").Trim();
+                              string regex2 = Regex.Replace(regex1, @"<[^>]+>|&nbsp;", "").Trim();
+                              string regex3 = Regex.Replace(regex2, @"^\s+", "");
+                              string regex4 = Regex.Replace(regex3, @"\s+$", "");
+                              */
+                            string regex2 = Regex.Replace(node.InnerText, @"<[^>]+>|&nbsp;", "");
+                            richTextBox1.AppendText(regex2);
+                            //webBrowser1.DocumentText = regex2;
+                        }
+
                     }
                     else if (comboBox1.Text == "PDAM")
                     {
@@ -308,18 +430,20 @@ namespace json1
 
         private void button2_Click(object sender, EventArgs e)
         {
-            PrintDialog printDialog = new PrintDialog();
-            PrintDocument documentToPrint = new PrintDocument();
-            //printDialog.Document = documentToPrint;
-            if (printDialog.ShowDialog() == DialogResult.OK)
+            // printDocument1.DefaultPageSettings.PaperSize = new System.Drawing.Printing.PaperSize("custom", 925, 1155);
+            //printPreviewDialog1.ShowDialog();
+            printDialog1.Document = printDocument1;
+            if(printDialog1.ShowDialog() == DialogResult.OK)
             {
-                
-                StringReader reader = new StringReader(richTextBox1.Text);
-                //documentToPrint.PrintPage += new PrintPageEventHandler(DocumentToPrint_PrintPage);
-                documentToPrint.Print();
+                printDocument1.Print();
             }
         }
+
+        private void printDocument1_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            e.Graphics.DrawString(richTextBox1.Text, new Font("Courier New", 8, FontStyle.Regular), Brushes.Black, new PointF(5, 3));
+        }
     }
-    }
+}
 
 
