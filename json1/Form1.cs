@@ -112,16 +112,16 @@ namespace json1
 
                     string ID = "IDPEL";
                     string NM = "NAMA";
-                    string TD = "TARIF/DAYA :";
+                    string TD = "TARIF/DAYA";
                     string SL = "/";
-                    string BT = "BL/TH      :";
-                    string TB = "TGL BAYAR  :";
+                    string BT = "BL/TH";
+                    string TB = "TGL BAYAR";
                     string TB2 = "Tanggal Bayar ";
                     string ST = "STAND METER:";
-                    string RP = "RP TAG PLN :RP.    ";
-                    string AD = "ADMIN BANK :RP.     ";
-                    string TT = "TOTAL BAYAR:RP.    ";
-                    string RF = "REFF       :";
+                    string RP = "RP TAG PLN :RP.";
+                    string AD = "ADMIN BANK :RP.";
+                    string TT = "TOTAL BAYAR:RP.";
+                    string RF = "REFF";
                     string IF0 = "Informasi Hub Call Center 123 Atau PLN Terdekat";
                     string TQ = "TERIMAKASIH";
                     string SP = "STRUK PEMBAYARAN TAGIHAN LISTRIK";
@@ -129,13 +129,13 @@ namespace json1
                     string TL = "TAGIHAN LISTRIK";
                     //NONTAG
                     string NON = "STRUK PEMBAYARAN NON TAGIHAN LISTRIK";
-                    string NR = "NO REG     :";
+                    string NR = "NO REG";
                     string NR2 = "NO REGISTRASI";
-                    string TR = "TGL REG    :";
+                    string TR = "TGL REG";
                     string TR2 = "TGL REGISTRASI";
                     string JT = "TRANSAKSI";
                     string BP = "BIAYA PLN";
-                    string AD2 = "ADMIN BANK :RP.    ";
+                    string AD2 = "ADMIN BANK:RP.";
 
 
                     if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
@@ -215,15 +215,21 @@ namespace json1
 
                         
                         List<String> list = new List<String>();
-                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t\t\t\t{0,1}{1,1}", TB2, tglbyr)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t\t\t\t\t{0,1}{1,1}", TB2, tglbyr)));
                         list.Add(string.Concat(string.Format("{0,1}\t{1,1}", agen.PadRight(35), agen)));
                         list.Add(string.Concat(string.Format("{0,1}\t\t\t\t\t\t\t{1,1}{2,1}", tglbyr, NON,ENT)));
-                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t\t{2,1}:{3,1}", NR, noreg, JT.PadRight(15), jenis)));
-                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t\t\t{2,1}:{3,1}", TR, tglreg, NR2.PadRight(15), noreg)));
-                        list.Add(string.Concat(string.Format("{0,1}:{1,1}\t\t\t{2,1}:{3,1}", ID.PadRight(11), idp.PadRight(15), TR2.PadRight(15), tglreg)));
-                        list.Add(string.Concat(string.Format("{0,1}:{1,1}\t{2,1}:{3,1}", NM.PadRight(11), nama.PadRight(25), NM.PadRight(15), nama)));
-                        list.Add(string.Concat(string.Format("{0,1}:\t\t\t\t\t{1,1}:{2,1}", JT.PadRight(11), ID.PadRight(15),idp)));
-                        list.Add(string.Concat(string.Format("{0,5}\t\t\t\t{1,1}:{2,1}", jenis, BP.PadRight(15), rptag)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t\t{2,1}: {3,1}", NR.PadRight(11), noreg.PadRight(15), JT.PadRight(15), jenis)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t{2,1}: {3,1}", TR.PadRight(11), tglreg.PadRight(25), NR2.PadRight(15), noreg)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t{2,1}: {3,1}", ID.PadRight(11), idp.PadRight(25), TR2.PadRight(15), tglreg)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t{2,1}: {3,1}", NM.PadRight(11), nama.PadRight(25), NM.PadRight(15), nama)));
+                        list.Add(string.Concat(string.Format("{0,1}:\t\t\t\t\t{1,1}: {2,1}", JT.PadRight(11), ID.PadRight(15),idp)));
+                        list.Add(string.Concat(string.Format("{0,25}\t\t\t{1,1}: {2,1}", jenis, BP.PadRight(15), rptag)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t{0,1}: {1,1}", RF.PadRight(15), reff)));
+                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t\t\t{2,1}", RP, rptag.PadLeft(15).PadRight(11), AG)));
+                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t{2,1}{3,1}", AD, adm.PadLeft(15), AD, adm.PadLeft(10))));
+                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t{2,1}{3,1}", TT, total.PadLeft(15), TT, total.PadLeft(10))));
+                        list.Add(string.Concat(string.Format("{0,1}:\t\t\t\t\t{1,83}", RF.PadRight(5), info1)));
+                        list.Add(string.Concat(string.Format("{0,1}\t\t\t{1,5}|{2,5}|{3,5}", reff, lain1, ref2, kodetrx)));
                         list.Add(ENT);
 
                        
