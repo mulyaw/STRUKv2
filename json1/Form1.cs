@@ -37,7 +37,7 @@ namespace json1
             try
             {
                 request.GetResponse();             
-                Text = ("Cetak Struk -- Connected --                                   "+DateTime.Now.ToString("                             dddd, d - MMMM - yyyy"));                
+                Text = ("Cetak Struk -- Connected --                                   "+DateTime.Now.ToString("                             dddd, d MMMM yyyy"));                
             }
             catch //If exception thrown then couldn't get response from address
             {               
@@ -117,12 +117,14 @@ namespace json1
                     string BT = "BL/TH";
                     string TB = "TGL BAYAR";
                     string TB2 = "Tanggal Bayar ";
-                    string ST = "STAND METER:";
-                    string RP = "RP TAG PLN :RP.";
-                    string AD = "ADMIN BANK :RP.";
-                    string TT = "TOTAL BAYAR:RP.";
+                    string ST = "STAND METER";
+                    string RP = "RP TAG PLN : RP.";
+                    string RP2 = "RP TAG PLN  : RP.";
+                    string AD = "ADMIN BANK : RP.";
+                    string TT = "TOTAL BAYAR: RP.";
+                    string T1 = "TOTAL BAYAR : RP.";
                     string RF = "REFF";
-                    string IF0 = "Informasi Hub Call Center 123 Atau PLN Terdekat";
+                    string IF0 = "Informasi Hubungi Call Center 123 Atau Hub PLN Terdekat :. Powered by Bukopinet.";
                     string TQ = "TERIMAKASIH";
                     string SP = "STRUK PEMBAYARAN TAGIHAN LISTRIK";
                     string AG = "PLN menyatakan struk ini sebagai bukti pembayaran yang sah";
@@ -135,14 +137,13 @@ namespace json1
                     string TR2 = "TGL REGISTRASI";
                     string JT = "TRANSAKSI";
                     string BP = "BIAYA PLN";
-                    string AD2 = "ADMIN BANK:RP.";
+                    string AD2 = "ADMIN BANK  : RP.";
 
 
                     if (comboBox1.Text == "PLN TAGIHAN - POSTPAID")
                     {
                         webBrowser1.Hide();
                         richTextBox1.Show();
-
                         //sum code
                         //Convert to int
                         int x = Int32.Parse(rptag);
@@ -156,23 +157,22 @@ namespace json1
                         string total = sum2.ToString();
                         //end sum
 
-
                         List<String> list = new List<String>();
-
-                        list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,10}\t{3,10}", agen.PadRight(35), agen, TB2, tglbyr)));
-                        list.Add(string.Concat(string.Format("{0,10}\t\t\t\t\t\t\t{1,10}{2,1}", tglbyr, SP, ENT)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t\t{4,5}{5,1}", ID, idp, ID, idp, BT, bln)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}\t\t\t{4,5}{5,1}-{6,1}", NM, nama.PadRight(15), NM, nama.PadRight(20), ST, st0, st1)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t\t{2,5}{3,1}", TD, tarif, TD, tarif)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,1}\t\t\t\t{2,5}{3,5}", BT, bln, RP, rptag)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t{2,5}{3,5}", TB, tglbyr, RF, reff)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,1}-{2,1}", ST, st0, st1)));
-                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t{0,5}", AG)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", JT, TL, AD, adm)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}{3,5}", RP, rptag, TT, total)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t\t\t\t\t{2,5}", AD, adm, TQ)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}", TT, total, info1)));
-                        list.Add(string.Concat(string.Format("{0,5}{1,5}\t\t\t{2,5}|{3,5}|{4,5}", RF, reff, lain1, ref2, kodetrx)));
+                        list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t\t\t\t\t{0,1}{1,1}", TB2, tglbyr)));
+                        list.Add(string.Concat(string.Format("{0,1}\t{1,1}", agen.PadRight(35), agen)));
+                        list.Add(string.Concat(string.Format("{0,1}\t\t\t\t\t\t\t{1,1}{2,1}", tglbyr, SP, ENT)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t\t{2,1}: {3,1}\t\t{4,1}: {5,1}", ID.PadRight(12), idp.PadRight(15), ID.PadRight(11), idp.PadRight(15), BT.PadRight(12), bln)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t{2,1}: {3,1}\t{4,1}: {5,1}-{6,1}", NM.PadRight(12), nama.PadRight(23), NM.PadRight(11), nama.PadRight(23), ST.PadRight(12), st0, st1)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}/{2,1}\t{3,1}: {4,1}/{5,1}", TD.PadRight(12), tarif, daya.PadRight(18), TD.PadRight(11), tarif, daya)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t{2,1} {3,1}", BT.PadRight(12), bln.PadRight(23), RP.PadRight(11), rptag)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}\t{2,1}: {3,1}", TB.PadRight(12), tglbyr.PadRight(21), RF.PadRight(11), reff)));
+                        list.Add(string.Concat(string.Format("{0,1}: {1,1}-{2,1}", ST.PadRight(12), st0, st1)));
+                        list.Add(string.Concat(string.Format("{0,1} {1,1}\t\t\t{2,1}", RP2.PadRight(20), rptag.PadLeft(10), AG)));
+                        list.Add(string.Concat(string.Format("{0,1} {1,1}\t\t{2,1}{3,1}", AD2.PadRight(12), adm.PadLeft(13), AD.PadRight(11), adm.PadLeft(10))));
+                        list.Add(string.Concat(string.Format("{0,25}\t\t\t{1,1}{2,1}", TL, TT.PadRight(11), total.PadLeft(10))));
+                        list.Add(string.Concat(string.Format("{0,1}{1,1}\t\t\t\t\t{2,1}", T1.PadRight(15), total.PadLeft(14), TQ)));
+                        list.Add(string.Concat(string.Format("{0,1}:\t\t\t\t\t{1,1}", RF, IF0.PadLeft(83))));
+                        list.Add(string.Concat(string.Format("{0,1}\t\t\t{1,5}|{2,5}|{3,5}", reff, lain1, ref2, kodetrx)));
                         list.Add(ENT);
 
                         /* list.Add(string.Concat(agen));
@@ -198,8 +198,6 @@ namespace json1
                     {
                         webBrowser1.Hide();
                         richTextBox1.Show();
-
-
                         //sum code
                         //Convert to int
                         int x = Int32.Parse(rptag);
@@ -212,7 +210,6 @@ namespace json1
                         //convert to string
                         string total = sum2.ToString();
                         //end sum
-
                         
                         List<String> list = new List<String>();
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t\t\t\t\t\t{0,1}{1,1}", TB2, tglbyr)));
@@ -232,9 +229,6 @@ namespace json1
                         list.Add(string.Concat(string.Format("{0,1}\t\t\t{1,5}|{2,5}|{3,5}", reff, lain1, ref2, kodetrx)));
                         list.Add(ENT);
 
-                       
-                       
-
                         richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
                         /*
                         list.Add(string.Concat(string.Format("{0,10}\t\t{1,10}\t\t{2,15}\t{3,10}", agen, agen, TB2, tglbyr)));
@@ -253,7 +247,6 @@ namespace json1
                         list.Add(string.Concat(string.Format("\t\t\t\t\t\t\t{0,5}|{1,5}|{2,5}",lain1, ref2, kodetrx)));                        
                         list.Add(ENT);
                         */
-
 
                         //richTextBox1.Text += string.Join(Environment.NewLine, list.ToArray());
 
